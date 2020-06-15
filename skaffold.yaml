@@ -7,11 +7,25 @@ deploy:
 build:
   local:
     push: false
-  # googleCloudBuild:
-  #   projectId: bcreigh-ticketing-dev
   artifacts:
     - image: bcreigh-ticketing-dev/auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: bcreigh-ticketing-dev/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+    - image: bcreigh-ticketing-dev/tickets
+      context: tickets
       docker:
         dockerfile: Dockerfile
       sync:
